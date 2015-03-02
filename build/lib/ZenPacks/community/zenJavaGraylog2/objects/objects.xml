@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<objects>
+<!-- ('', 'zport', 'dmd', 'Devices', 'rrdTemplates', 'Graylog2Metric') -->
+<object id='/zport/dmd/Devices/rrdTemplates/Graylog2Metric' module='Products.ZenModel.RRDTemplate' class='RRDTemplate'>
+<property type="string" id="targetPythonClass" mode="w" >
+ZenPacks.community.zenJavaGraylog2.Graylog2Metric
+</property>
+<tomanycont id='datasources'>
+<object id='Count' module='ZenPacks.zenoss.ZenJMX.datasources.JMXDataSource' class='JMXDataSource'>
+<property select_variable="sourcetypes" type="selection" id="sourcetype" mode="w" >
+JMX
+</property>
+<property type="boolean" id="enabled" mode="w" >
+True
+</property>
+<property type="string" id="component" mode="w" >
+${here/mbean}
+</property>
+<property type="string" id="eventClass" mode="w" >
+/Status/JMX
+</property>
+<property type="int" id="severity" mode="w" >
+3
+</property>
+<property type="int" id="cycletime" mode="w" >
+300
+</property>
+<property type="string" id="jmxPort" mode="w" >
+${here/port}
+</property>
+<property type="string" id="jmxProtocol" mode="w" >
+${here/protocol}
+</property>
+<property type="string" id="rmiContext" mode="w" >
+jmxrmi
+</property>
+<property type="string" id="objectName" mode="w" >
+${here/fullpath}
+</property>
+<property type="string" id="authenticate" mode="w" >
+${here/auth}
+</property>
+<property type="string" id="username" mode="w" >
+${here/user}
+</property>
+<property type="string" id="password" mode="w" >
+${here/password}
+</property>
+<property type="string" id="attributeName" mode="w" >
+Count
+</property>
+<tomanycont id='datapoints'>
+<object id='Count' module='Products.ZenModel.RRDDataPoint' class='RRDDataPoint'>
+<property select_variable="rrdtypes" type="selection" id="rrdtype" mode="w" >
+DERIVE
+</property>
+<property type="boolean" id="isrow" mode="w" >
+True
+</property>
+</object>
+</tomanycont>
+</object>
+</tomanycont>
+<tomanycont id='graphDefs'>
+<object id='Count' module='Products.ZenModel.GraphDefinition' class='GraphDefinition'>
+<property type="int" id="height" mode="w" >
+100
+</property>
+<property type="int" id="width" mode="w" >
+500
+</property>
+<property type="boolean" id="log" mode="w" >
+False
+</property>
+<property type="boolean" id="base" mode="w" >
+False
+</property>
+<property type="int" id="miny" mode="w" >
+-1
+</property>
+<property type="int" id="maxy" mode="w" >
+-1
+</property>
+<property type="boolean" id="hasSummary" mode="w" >
+True
+</property>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
+<tomanycont id='graphPoints'>
+<object id='Count' module='Products.ZenModel.DataPointGraphPoint' class='DataPointGraphPoint'>
+<property type="long" id="sequence" mode="w" >
+0
+</property>
+<property select_variable="lineTypes" type="selection" id="lineType" mode="w" >
+AREA
+</property>
+<property type="long" id="lineWidth" mode="w" >
+1
+</property>
+<property type="boolean" id="stacked" mode="w" >
+False
+</property>
+<property type="string" id="format" mode="w" >
+%5.2lf%s
+</property>
+<property type="string" id="legend" mode="w" >
+${graphPoint/id}
+</property>
+<property type="long" id="limit" mode="w" >
+-1
+</property>
+<property type="string" id="dpName" mode="w" >
+Count_Count
+</property>
+<property type="string" id="cFunc" mode="w" >
+AVERAGE
+</property>
+</object>
+</tomanycont>
+</object>
+</tomanycont>
+</object>
+</objects>

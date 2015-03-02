@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:browser="http://namespaces.zope.org/browser"
+        xmlns:zcml="http://namespaces.zope.org/zcml">
+        <configure zcml:condition="installed Products.Zuul">
+
+            <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
+
+
+            <!-- ZenPack Info -->
+
+            <browser:directRouter
+                name="zenJavaGraylog2_router"
+                for="*"
+                class="ZenPacks.community.zenJavaGraylog2.routers.zenJavaGraylog2Router"
+                namespace="Zenoss.remote"
+                permission="zenoss.View"
+            />
+    
+            <adapter
+                name="zenJavaGraylog2Adapter"
+                provides="ZenPacks.community.zenJavaGraylog2.interfaces.IzenJavaGraylog2Facade"
+                for="*"
+                factory="ZenPacks.community.zenJavaGraylog2.facades.zenJavaGraylog2Facade"
+            />
+                
+            <browser:resourceDirectory
+                    name="zenJavaGraylog2"
+                    directory="resources"
+            />
+
+            <!-- Component Info -->
+            <adapter factory="ZenPacks.community.zenJavaGraylog2.info.Graylog2MetricInfo"
+                for="ZenPacks.community.zenJavaGraylog2.Graylog2Metric.Graylog2Metric"
+                provides="ZenPacks.community.zenJavaGraylog2.interfaces.IGraylog2MetricInfo"
+            />
+    
+            <browser:viewlet
+                name="js-Graylog2Metric"
+                paths="/++resource++zenJavaGraylog2/graylog2metric.js"
+                weight="10"
+                manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
+                class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
+                permission="zope2.Public"
+            />
+
+            <utility provides="zope.schema.interfaces.IVocabularyFactory"
+                component=".info.Graylog2MetricgetEventClassesVocabulary"
+                name="Graylog2MetricgetEventClasses"
+            />
+
+        </configure>
+    </configure>
+
