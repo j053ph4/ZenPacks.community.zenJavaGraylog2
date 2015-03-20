@@ -19,32 +19,16 @@ class Graylog2MetricMap(CommonMBeanMap):
     
     searchMBean = 'metrics:name=*'
     
-    
-    def isEnabled(self, port, mbean, protocol, log):
+    def isEnabled(self, port, mbean, log):
         '''decide whether or not this should be monitored'''
-        result = self.scan.proxy.get(self.scan.ipaddr, port, self.scan.username, self.scan.password, mbean)
-        log.debug('params: %s, %s %s %s %s' % (self.scan.ipaddr, port, self.scan.username, self.scan.password, mbean))
-        log.debug("result: %s" % result)
-        result = self.scan.getBeanAttributeValues(port=port, mbean=mbean, attributes=['Count','Mean','FiveMinuteRate'], protocol=protocol)
-        log.debug("result: %s" % result)
+        jmx = self.scan.portdict[port]
+        self.scan.proxy.setJMX(jmx)
+        result = self.scan.proxy.getBeanAttributeValues(mbean, ['Count','Mean','FiveMinuteRate'])
         if 'Count' in result.keys():  return True
         return False
-     
-    def process(self, device, results, log):
-        #log.info("got %s results" % len(results))
-        log.info("The plugin %s returned %s results." % (self.name(), len(results)))
-        #self.scan =  None
-        if len(results) == 0: return None
-        rm = self.relMap()
-        for result in results:
-            if self.isEnabled(result['port'], result['mbean'], result['protocol'], log) is False: continue
-            enabled = result['enabled']
-            result.pop('enabled')
-            om = self.objectMap(result)
-            om.setJavaapp = ''
-            om.setIpservice = ''
-            om.monitor = enabled 
-            rm.append(om)
-            log.debug(om)
-        return rm
+    
+    def postprocess(self, result, om, log):
+        ''''''
+        om.monitor = self.isEnabled(result['port'], result['mbean'], log)
+        return om
 
