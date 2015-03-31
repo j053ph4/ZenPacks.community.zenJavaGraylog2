@@ -5,7 +5,7 @@
 NAME = "ZenPacks.community.zenJavaGraylog2"
 VERSION = "1.0.0"
 AUTHOR = "Joseph Anderson"
-LICENSE = "GPLv2+"
+LICENSE = "Apache"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.community']
 PACKAGES = ['ZenPacks', 'ZenPacks.community', 'ZenPacks.community.zenJavaGraylog2']
 INSTALL_REQUIRES = []
